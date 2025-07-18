@@ -4,18 +4,18 @@ if TYPE_CHECKING:
 
 from .enums import *
 
-def file(data: dict) -> 'FileObject':
+def file(data: dict) -> 'FileObject | None':
     from .types import FileObject
     if not data:
         return None
     return FileObject(
-        id=data.get("id"),
-        url=data.get("url"), 
+        id=data.get("id", ''),
+        url=data.get("url", ''), 
         filename=data.get("filename"),
         mime=data.get("mime")
     )
 
-def transaction(data: dict) -> 'Transaction':
+def transaction(data: dict) -> 'Transaction | None':
     from .types import Transaction
     if not data:
         return None

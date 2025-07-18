@@ -10,3 +10,6 @@ modules/
 modules1/
 
 ./.gitignore
+
+# UV Ignores
+uv.lock

@@ -2,6 +2,7 @@ from ..account import Account
 from ..types import ChatList, ChatMessage, Chat
 from .events import *
 from typing import Generator
+from loguru import logger
 
 import time
 
@@ -183,6 +184,7 @@ class EventListener:
                 chats = next_chats
                 time.sleep(requests_delay)
             except Exception as e:
+                logger.exception(e)
                 print(f"Ошибка при получении ивентов: {e}")
                 time.sleep(requests_delay)  
                 continue

@@ -1,4 +1,7 @@
 from datetime import datetime
+from typing import Union
+
+
 
 stats = {
     "bot_launch_time": datetime.now(),
@@ -8,7 +11,8 @@ stats = {
     "earned_money": 0,
 }
 
-def get_stats() -> dict[str: str | int]:
+# Legacy support
+def get_stats() -> dict[str, Union[int, str]]:
     """ Возвращает статистику """
     return stats
 

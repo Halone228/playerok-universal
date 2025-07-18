@@ -1,0 +1,25 @@
+[project]
+name = "playerok-universal"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiogram==3.10.0",
+    "asyncio==3.4.3",
+    "beautifulsoup4==4.12.3",
+    "bs4==0.0.2",
+    "certifi==2025.1.31",
+    "colorama==0.4.6",
+    "colorlog==6.9.0",
+    "loguru>=0.7.3",
+    "lxml==5.2.2",
+    "pydantic>=2.8.2",
+    "requests==2.32.3",
+    "requests-toolbelt==0.10.1",
+    "setuptools==75.8.0",
+    "tqdm==4.67.1",
+    "urllib3==1.26.16",
+    "validators==0.34.0",
+    "wrapper-tls-requests==1.1.4",
+]
