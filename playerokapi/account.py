@@ -7,6 +7,7 @@ from . import types
 from .exceptions import *
 from .parser import *
 from .enums import *
+from primp import Client
 
 
 class Account:
@@ -118,7 +119,10 @@ class Account:
             headers["x-apollo-operation-name"] = 'SomeName'
             headers["apollo-require-preflight"] = 'true'
 
-            client = tls_requests.Client(proxy=self.https_proxy)
+            client = Client(
+                referer=False,
+                proxy=self.https_proxy
+            )
             if method == "get":
                 r = client.get(url=url, params=payload, headers=headers, 
                             timeout=self.requests_timeout)
