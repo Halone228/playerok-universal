@@ -1,14 +1,12 @@
 from __future__ import annotations
-
 from typing import *
 import json
 
 from .account import Account
 from . import parser
 from .enums import *
-from pydantic import BaseModel
 
-class FileObject(BaseModel):
+class FileObject:
     """
     Объект файла.
 
@@ -24,16 +22,18 @@ class FileObject(BaseModel):
     :param mime: Mime файла.
     :type mime: `str` or `None`
     """
-    id: str
-    """ ID файла. """
-    url: str
-    """ URL файла. """
-    filename: str | None
-    """ Имя файла. """
-    mime: str | None
-    """ Mime файла. """
+    def __init__(self, id: str, url: str, 
+                 filename: str | None, mime: str | None):
+        self.id: str = id
+        """ ID файла. """
+        self.url: str = url
+        """ URL файла. """
+        self.filename: str | None = filename
+        """ Имя файла. """
+        self.mime: str | None = mime
+        """ Mime файла. """
 
-class AccountBalance(BaseModel):
+class AccountBalance:
     """
     Подкласс, описывающий баланс аккаунта.
 
@@ -55,20 +55,22 @@ class AccountBalance(BaseModel):
     :param pending_income: Ожидаемый доход.
     :type pending_income: `int`
     """
-    id: str
-    """ ID баланса. """
-    value: int
-    """ Сумма общего баланса. """
-    frozen: int
-    """ Сумма замороженного баланса. """
-    available: int
-    """ Сумма доступного баланса. """
-    withdrawable: int
-    """ Сумма баланса, доступного для вывода. """
-    pending_income: int
-    """ Ожидаемый доход. """
+    def __init__(self, id: str, value: int, frozen: int, available: int, 
+                 withdrawable: int, pending_income: int):
+        self.id: str = id
+        """ ID баланса. """
+        self.value: int = value
+        """ Сумма общего баланса. """
+        self.frozen: int = frozen
+        """ Сумма замороженного баланса. """
+        self.available: int = available
+        """ Сумма доступного баланса. """
+        self.withdrawable: int = withdrawable
+        """ Сумма баланса, доступного для вывода. """
+        self.pending_income: int = pending_income
+        """ Ожидаемый доход. """
 
-class AccountIncomingDealsStats(BaseModel):
+class AccountIncomingDealsStats:
     """
     Подкласс, описывающий статистику входящих сделок аккаунта.
 
@@ -78,12 +80,13 @@ class AccountIncomingDealsStats(BaseModel):
     :param finished: Завершённых исходящих сделок.
     :type finished: `int`
     """
-    total: int
-    """ Всего исходящих сделок. """
-    finished: int
-    """ Кол-во завершённых исходящих сделок. """
+    def __init__(self, total: int, finished: int):
+        self.total: int = total
+        """ Всего исходящих сделок. """
+        self.finished: int = finished
+        """ Кол-во завершённых исходящих сделок. """
 
-class AccountOutgoingDealsStats(BaseModel):
+class AccountOutgoingDealsStats:
     """
     Подкласс, описывающий статистику исходящих сделок аккаунта.
 
@@ -93,12 +96,13 @@ class AccountOutgoingDealsStats(BaseModel):
     :param finished: Завершённых исходящих сделок.
     :type finished: `int`
     """
-    total: int
-    """ Всего исходящих сделок. """
-    finished: int
-    """ Кол-во завершённых исходящих сделок. """
+    def __init__(self, total: int, finished: int):
+        self.total = total
+        """ Всего исходящих сделок. """
+        self.finished = finished
+        """ Кол-во завершённых исходящих сделок. """
 
-class AccountDealsStats(BaseModel):
+class AccountDealsStats:
     """
     Подкласс, описывающий статистику сделок аккаунта.
 
@@ -108,12 +112,13 @@ class AccountDealsStats(BaseModel):
     :param outgoing: Исходящие сделки.
     :type outgoing: `types.AccountOutgoingDealsStats`
     """
-    incoming: AccountIncomingDealsStats
-    """ Входящие сделки. """
-    outgoing: AccountOutgoingDealsStats
-    """ Исходящие сделки. """
+    def __init__(self, incoming: AccountIncomingDealsStats, outgoing: AccountOutgoingDealsStats):
+        self.incoming: AccountIncomingDealsStats = incoming
+        """ Входящие сделки. """
+        self.outgoing: AccountOutgoingDealsStats = outgoing
+        """ Исходящие сделки. """
 
-class AccountItemsStats(BaseModel):
+class AccountItemsStats:
     """
     Подкласс, описывающий статистику предметов аккаунта.
 
@@ -123,12 +128,13 @@ class AccountItemsStats(BaseModel):
     :param finished: Завершённых предметов.
     :type finished: `int`
     """
-    total: int
-    """ Всего предметов. """
-    finished: int
-    """ Кол-во завершённых предметов. """
+    def __init__(self, total: int, finished: int):
+        self.total: int = total
+        """ Всего предметов. """
+        self.finished: int = finished
+        """ Кол-во завершённых предметов. """
 
-class AccountStats(BaseModel):
+class AccountStats:
     """
     Подкласс, описывающий статистику аккаунта.
 
@@ -138,12 +144,13 @@ class AccountStats(BaseModel):
     :param deals: Статистика сделок.
     :type deals: `types.AccountDealsStats`
     """
-    items: AccountItemsStats
-    """ Статистика предметов. """
-    deals: AccountDealsStats
-    """ Статистика сделок. """
+    def __init__(self, items: AccountItemsStats, deals: AccountDealsStats):
+        self.items: AccountItemsStats = items
+        """ Статистика предметов. """
+        self.deals: AccountDealsStats = deals
+        """ Статистика сделок. """
 
-class AccountProfile(BaseModel):
+class AccountProfile:
     """
     Класс, описывающий профиль аккаунта.
 
@@ -201,44 +208,47 @@ class AccountProfile(BaseModel):
     :param has_enabled_notifications: Включены ли уведомления на аккаунте.
     :type has_enabled_notifications: `bool`
     """
-    id: str
-    """ ID аккаунта. """
-    username: str
-    """ Никнейм аккаунта. """
-    email: str
-    """ Почта аккаунта. """
-    balance: AccountBalance
-    """ Объект баланса аккаунта. """
-    stats: AccountStats
-    """ Статистика аккаунта. """
-    role: UserTypes 
-    """ Роль аккаунта. """
-    avatar_url: str
-    """ URL аватара аккаунта. """
-    is_online: bool
-    """ В онлайне ли сейчас аккаунт. """
-    is_blocked: bool
-    """ Заблокирован ли аккаунт. """
-    is_blocked_for: bool
-    """ Причина блокировки аккаунта. """
-    is_verified: bool
-    """ Верифицирован ли аккаунт. """
-    rating: int
-    """ Рейтинг аккаунта (0-5). """
-    reviews_count: int
-    """ Кол-во отзывов на аккаунте. """
-    created_at: str
-    """ Дата создания аккаунта. """
-    support_chat_id: str
-    """ ID чата поддержки аккаунта. """
-    system_chat_id: str
-    """ ID системного чата аккаунта. """
-    has_frozen_balance: bool
-    """ Заморожен ли баланс на аккаунте. """
-    has_enabled_notifications: bool
-    """ Включены ли уведомления на аккаунте. """
+    def __init__(self, id: str, username: str, email: str, balance: AccountBalance, stats: AccountStats, role: UserTypes, avatar_url: str, is_online: bool, is_blocked: bool,
+                 is_blocked_for: str, is_verified: bool, rating: int, reviews_count: int, created_at: str, support_chat_id: str, system_chat_id: str,
+                 has_frozen_balance: bool, has_enabled_notifications: bool):
+        self.id: str = id
+        """ ID аккаунта. """
+        self.username: str = username
+        """ Никнейм аккаунта. """
+        self.email: str = email
+        """ Почта аккаунта. """
+        self.balance: AccountBalance = balance
+        """ Объект баланса аккаунта. """
+        self.stats: AccountStats = stats
+        """ Статистика аккаунта. """
+        self.role: UserTypes  = role
+        """ Роль аккаунта. """
+        self.avatar_url: str = avatar_url
+        """ URL аватара аккаунта. """
+        self.is_online: bool = is_online
+        """ В онлайне ли сейчас аккаунт. """
+        self.is_blocked: bool = is_blocked
+        """ Заблокирован ли аккаунт. """
+        self.is_blocked_for: bool = is_blocked_for
+        """ Причина блокировки аккаунта. """
+        self.is_verified: bool = is_verified
+        """ Верифицирован ли аккаунт. """
+        self.rating: int = rating
+        """ Рейтинг аккаунта (0-5). """
+        self.reviews_count: int = reviews_count
+        """ Кол-во отзывов на аккаунте. """
+        self.created_at: str = created_at
+        """ Дата создания аккаунта. """
+        self.support_chat_id: str = support_chat_id
+        """ ID чата поддержки аккаунта. """
+        self.system_chat_id: str = system_chat_id
+        """ ID системного чата аккаунта. """
+        self.has_frozen_balance: bool = has_frozen_balance
+        """ Заморожен ли баланс на аккаунте. """
+        self.has_enabled_notifications: bool = has_enabled_notifications
+        """ Включены ли уведомления на аккаунте. """
 
-class UserProfile(BaseModel):
+class UserProfile:
     """
     Класс, описывающий профиль пользователя.
 
@@ -275,38 +285,37 @@ class UserProfile(BaseModel):
     :param created_at: Дата создания аккаунта пользователя.
     :type created_at: `str`
     """
-    id: str
-    """ ID пользователя. """
-    username: str
-    """ Никнейм пользователя. """
-    role: UserTypes
-    """ Роль пользователя. """
-    avatar_url: str
-    """ URL аватара. """
-    is_online: bool
-    """ В онлайне ли сейчас пользователь. """
-    is_blocked: bool
-    """ Заблокирован ли пользователь. """
-    rating: int
-    """ Рейтинг пользователя (0-5). """
-    reviews_count: int
-    """ Кол-во отзывов пользователя. """
-    support_chat_id: str | None
-    """ ID чата поддержки. """
-    system_chat_id: str | None
-    """ ID системного чата. """
-    created_at: str
-    """ Дата создания аккаунта пользователя. """
+    def __init__(self, id: str, username: str, role: UserTypes, avatar_url: str, is_online: bool, is_blocked: bool, 
+                 rating: int, reviews_count: int, support_chat_id: str, system_chat_id: str | None, created_at: str | None,
+                 __account: Account | None = None):
+        self.id: str = id
+        """ ID пользователя. """
+        self.username: str = username
+        """ Никнейм пользователя. """
+        self.role: UserTypes = role
+        """ Роль пользователя. """
+        self.avatar_url: str = avatar_url
+        """ URL аватара. """
+        self.is_online: bool = is_online
+        """ В онлайне ли сейчас пользователь. """
+        self.is_blocked: bool = is_blocked
+        """ Заблокирован ли пользователь. """
+        self.rating: int = rating
+        """ Рейтинг пользователя (0-5). """
+        self.reviews_count: int = reviews_count
+        """ Кол-во отзывов пользователя. """
+        self.support_chat_id: str | None = support_chat_id
+        """ ID чата поддержки. """
+        self.system_chat_id: str | None = system_chat_id
+        """ ID системного чата. """
+        self.created_at: str = created_at
+        """ Дата создания аккаунта пользователя. """
 
-    _account: Account | None
-    """ Объект аккаунта (для методов). """
+        self.__account: Account | None = None
+        """ Объект аккаунта (для методов). """
 
     def set_account(self, acc: Account):
-        self._account = acc
-
-    @property
-    def __account(self):
-        return self.__account
+        self.__account = acc
 
     def get_items(self, count: int = 24, statuses: list[ItemStatuses] | None = None,
                   after_cursor: str | None = None) -> ItemProfileList:
@@ -343,7 +352,7 @@ class UserProfile(BaseModel):
         return parser.item_profile_list(r["data"]["items"])
 
     def get_reviews(self, count: int = 24, status: ReviewStatuses = ReviewStatuses.APPROVED, 
-                                        comment_required: bool = False, rating: int | None = None, game_id: str | None = None, 
+                    comment_required: bool = False, rating: int | None = None, game_id: str | None = None, 
                     category_id: str | None = None, min_item_price: int | None = None, max_item_price: int | None = None, 
                     sort_direction: SortDirections = SortDirections.DESC, sort_field: str = "createdAt", after_cursor: str | None = None) -> ReviewList:
         """
@@ -415,11 +424,13 @@ class UserProfile(BaseModel):
         r = self.__account.request("get", f"{self.__account.base_url}/graphql", headers, payload).json()
         return parser.review_list(r["data"]["testimonials"])
 
-class Event(BaseModel):
+class Event:
     #TODO: Сделать класс ивента Event
-    pass
 
-class ItemDeal(BaseModel):
+    def __init__(self):
+        pass
+
+class ItemDeal:
     """
     Объект сделки с предметом.
 
@@ -486,50 +497,56 @@ class ItemDeal(BaseModel):
     :param comment_from_buyer: Комментарий от покупателя.
     :type comment_from_buyer: `str` or `None`
     """
-    id: str
-    """ ID сделки. """
-    status: ItemDealStatuses
-    """ Статус сделки. """
-    status_expiration_date: str | None
-    """ Дата истечения статуса. """
-    status_description: str | None
-    """ Описание статуса сделки. """
-    direction: ItemDealDirections
-    """ Направление сделки (покупка/продажа). """
-    obtaining: str | None
-    """ Получение сделки. """
-    has_problem: bool
-    """ Есть ли проблема в сделке. """
-    report_problem_enabled: bool | None
-    """ Включено ли обжалование проблемы. """
-    completed_user: UserProfile | None
-    """ Профиль пользователя, подтвердившего сделку. """
-    props: str | None
-    """ Реквизиты сделки. """
-    previous_status: ItemDealStatuses | None
-    """ Предыдущий статус. """
-    completed_at: str | None
-    """ Дата подтверждения сделки. """
-    created_at: str | None
-    """ Дата создания сделки. """
-    logs: list[ItemLog] | None
-    """ Логи сделки. """
-    transaction: Transaction | None
-    """ Транзакция сделки. """
-    user: UserProfile
-    """ Профиль пользователя, совершившего сделку. """
-    chat: Chat | None
-    """ Чат сделки (передаётся только его ID). """
-    item: Item
-    """ Предмет сделки. """
-    review: Review | None
-    """ Отзыв по сделке. """
-    obtaining_fields: dict | None
-    """ Получаемые поля. """
-    comment_from_buyer: str | None
-    """ Комментарий от покупателя. """
+    def __init__(self, id: str, status: ItemDealStatuses, status_expiration_date: str | None, status_description: str | None, 
+                 direction: ItemDealDirections, obtaining: str | None, has_problem: bool, report_problem_enabled: bool | None, 
+                 completed_user: UserProfile | None, props: str | None, previous_status: ItemDealStatuses | None, 
+                 completed_at: str, created_at: str, logs: list[ItemLog] | None, transaction: Transaction | None,
+                 user: UserProfile, chat: Chat | None, item: Item, review: Review | None, obtaining_fields: dict | None,
+                 comment_from_buyer: str | None):
+        self.id: str = id
+        """ ID сделки. """
+        self.status: ItemDealStatuses = status
+        """ Статус сделки. """
+        self.status_expiration_date: str | None = status_expiration_date
+        """ Дата истечения статуса. """
+        self.status_description: str | None = status_description
+        """ Описание статуса сделки. """
+        self.direction: ItemDealDirections = direction
+        """ Направление сделки (покупка/продажа). """
+        self.obtaining: str | None = obtaining
+        """ Получение сделки. """
+        self.has_problem: bool = has_problem
+        """ Есть ли проблема в сделке. """
+        self.report_problem_enabled: bool | None = report_problem_enabled
+        """ Включено ли обжалование проблемы. """
+        self.completed_user: UserProfile | None = completed_user
+        """ Профиль пользователя, подтвердившего сделку. """
+        self.props: str | None = props
+        """ Реквизиты сделки. """
+        self.previous_status: ItemDealStatuses | None = previous_status
+        """ Предыдущий статус. """
+        self.completed_at: str | None = completed_at
+        """ Дата подтверждения сделки. """
+        self.created_at: str | None = created_at
+        """ Дата создания сделки. """
+        self.logs: list[ItemLog] | None = logs
+        """ Логи сделки. """
+        self.transaction: Transaction | None = transaction
+        """ Транзакция сделки. """
+        self.user: UserProfile = user
+        """ Профиль пользователя, совершившего сделку. """
+        self.chat: Chat | None = chat
+        """ Чат сделки (передаётся только его ID). """
+        self.item: Item = item
+        """ Предмет сделки. """
+        self.review: Review | None = review
+        """ Отзыв по сделке. """
+        self.obtaining_fields: dict | None = obtaining_fields
+        """ Получаемые поля. """
+        self.comment_from_buyer: str | None = comment_from_buyer
+        """ Комментарий от покупателя. """
 
-class ItemDealPageInfo(BaseModel):
+class ItemDealPageInfo:
     """
     Подкласс, описывающий информацию о странице сделок.
 
@@ -545,16 +562,18 @@ class ItemDealPageInfo(BaseModel):
     :param has_next_page: Имеет ли следующую страницу.
     :type has_next_page: `bool`
     """
-    start_cursor: str
-    """ Курсор начала страницы. """
-    end_cursor: str
-    """ Курсор конца страницы. """
-    has_previous_page: bool
-    """ Имеет ли предыдущую страницу. """
-    has_next_page: bool
-    """ Имеет ли следующую страницу. """
+    def __init__(self, start_cursor: str, end_cursor: str,
+                 has_previous_page: bool, has_next_page: bool):
+        self.start_cursor: str = start_cursor
+        """ Курсор начала страницы. """
+        self.end_cursor: str = end_cursor
+        """ Курсор конца страницы. """
+        self.has_previous_page: bool = has_previous_page
+        """ Имеет ли предыдущую страницу. """
+        self.has_next_page: bool = has_next_page
+        """ Имеет ли следующую страницу. """
 
-class ItemDealList(BaseModel):
+class ItemDealList:
     """
     Класс, описывающий страницу отзывов.
 
@@ -567,14 +586,16 @@ class ItemDealList(BaseModel):
     :param total_count: Всего сделок.
     :type total_count: `int`
     """
-    deals: list[ItemDeal]
-    """ Сделки страницы. """
-    page_info: ItemDealPageInfo
-    """ Информация о странице. """
-    total_count: int
-    """ Всего сделок. """
+    def __init__(self, deals: list[ItemDeal], page_info: ItemDealPageInfo,
+                 total_count: int):
+        self.deals: list[ItemDeal] = deals
+        """ Сделки страницы. """
+        self.page_info: ItemDealPageInfo = page_info
+        """ Информация о странице. """
+        self.total_count: int = total_count
+        """ Всего сделок. """
 
-class GameCategoryAgreement(BaseModel):
+class GameCategoryAgreement:
     """
     Подкласс, описывающий соглашения покупателя.
 
@@ -590,16 +611,18 @@ class GameCategoryAgreement(BaseModel):
     :param sequence: Последовательность соглашения.
     :type sequence: `str`
     """
-    id: str
-    """ ID соглашения. """
-    description: str
-    """ Описание соглашения. """
-    icontype: GameCategoryAgreementIconTypes
-    """ Тип иконки соглашения. """
-    sequence: str
-    """ Последовательность соглашения. """
+    def __init__(self, id: str, description: str, 
+                 icontype: GameCategoryAgreementIconTypes, sequence: int):
+        self.id: str = id
+        """ ID соглашения. """
+        self.description: str = description
+        """ Описание соглашения. """
+        self.icontype: GameCategoryAgreementIconTypes = icontype
+        """ Тип иконки соглашения. """
+        self.sequence: str = sequence
+        """ Последовательность соглашения. """
 
-class GameCategoryAgreementPageInfo(BaseModel):
+class GameCategoryAgreementPageInfo:
     """
     Подкласс, описывающий информацию о странице соглашений покупателя.
 
@@ -615,16 +638,18 @@ class GameCategoryAgreementPageInfo(BaseModel):
     :param has_next_page: Имеет ли следующую страницу.
     :type has_next_page: `bool`
     """
-    start_cursor: str
-    """ Курсор начала страницы. """
-    end_cursor: str
-    """ Курсор конца страницы. """
-    has_previous_page: bool
-    """ Имеет ли предыдущую страницу. """
-    has_next_page: bool
-    """ Имеет ли следующую страницу. """
+    def __init__(self, start_cursor: str, end_cursor: str,
+                 has_previous_page: bool, has_next_page: bool):
+        self.start_cursor: str = start_cursor
+        """ Курсор начала страницы. """
+        self.end_cursor: str = end_cursor
+        """ Курсор конца страницы. """
+        self.has_previous_page: bool = has_previous_page
+        """ Имеет ли предыдущую страницу. """
+        self.has_next_page: bool = has_next_page
+        """ Имеет ли следующую страницу. """
 
-class GameCategoryAgreementList(BaseModel):
+class GameCategoryAgreementList:
     """
     Класс, описывающий страницу соглашений покупателя.
 
@@ -637,14 +662,16 @@ class GameCategoryAgreementList(BaseModel):
     :param total_count: Всего соглашений.
     :type total_count: `int`
     """
-    agreements: list[GameCategoryAgreement]
-    """ Соглашения страницы. """
-    page_info: GameCategoryAgreementPageInfo
-    """ Информация о странице. """
-    total_count: int
-    """ Всего соглашений. """
+    def __init__(self, agreements: list[GameCategoryAgreement], page_info: GameCategoryAgreementPageInfo,
+                 total_count: int):
+        self.agreements: list[GameCategoryAgreement] = agreements
+        """ Соглашения страницы. """
+        self.page_info: GameCategoryAgreementPageInfo = page_info
+        """ Информация о странице. """
+        self.total_count: int = total_count
+        """ Всего соглашений. """
 
-class GameCategoryObtainingType(BaseModel):
+class GameCategoryObtainingType:
     """
     Подкласс, описывающий тип (способ) получения предмета в категории.
 
@@ -681,30 +708,33 @@ class GameCategoryObtainingType(BaseModel):
     :param props: Пропорции категории.
     :type props: `types.GameCategoryProps`
     """
-    id: str
-    """ ID способа. """
-    name: str
-    """ Название способа. """
-    description: str
-    """ Описание способа. """
-    game_category_id: str
-    """ ID категории игры способа. """
-    no_comment_from_buyer: bool
-    """ Без комментария от покупателя? """
-    instruction_for_buyer: str | None
-    """ Инструкция для покупателя. """
-    instruction_for_seller: str | None
-    """ Инструкция для продавца. """
-    sequence: int
-    """ Последовательность способа. """
-    fee_multiplier: float
-    """ Множитель комиссии. """
-    agreements: list[GameCategoryAgreement]
-    """ Соглашения покупателя на покупку/продавца на продажу. """
-    props: GameCategoryProps
-    """ Пропорции категории. """
+    def __init__(self, id: str, name: str, description: str, game_category_id: str, no_comment_from_buyer: bool,
+                 instruction_for_buyer: str | None, instruction_for_seller: str | None, sequence: int, fee_multiplier: float,
+                 agreements: list[GameCategoryAgreement], props: GameCategoryProps):
+        self.id: str = id
+        """ ID способа. """
+        self.name: str = name
+        """ Название способа. """
+        self.description: str = description
+        """ Описание способа. """
+        self.game_category_id: str = game_category_id
+        """ ID категории игры способа. """
+        self.no_comment_from_buyer: bool = no_comment_from_buyer
+        """ Без комментария от покупателя? """
+        self.instruction_for_buyer: str | None = instruction_for_buyer
+        """ Инструкция для покупателя. """
+        self.instruction_for_seller: str | None = instruction_for_seller
+        """ Инструкция для продавца. """
+        self.sequence: int = sequence
+        """ Последовательность способа. """
+        self.fee_multiplier: float = fee_multiplier
+        """ Множитель комиссии. """
+        self.agreements: list[GameCategoryAgreement] = agreements
+        """ Соглашения покупателя на покупку/продавца на продажу. """
+        self.props: GameCategoryProps = props
+        """ Пропорции категории. """
 
-class GameCategoryObtainingTypePageInfo(BaseModel):
+class GameCategoryObtainingTypePageInfo:
     """
     Подкласс, описывающий информацию о странице типов (способов) получения предмета в категории.
 
@@ -720,16 +750,18 @@ class GameCategoryObtainingTypePageInfo(BaseModel):
     :param has_next_page: Имеет ли следующую страницу.
     :type has_next_page: `bool`
     """
-    start_cursor: str
-    """ Курсор начала страницы. """
-    end_cursor: str
-    """ Курсор конца страницы. """
-    has_previous_page: bool
-    """ Имеет ли предыдущую страницу. """
-    has_next_page: bool
-    """ Имеет ли следующую страницу. """
+    def __init__(self, start_cursor: str, end_cursor: str,
+                 has_previous_page: bool, has_next_page: bool):
+        self.start_cursor: str = start_cursor
+        """ Курсор начала страницы. """
+        self.end_cursor: str = end_cursor
+        """ Курсор конца страницы. """
+        self.has_previous_page: bool = has_previous_page
+        """ Имеет ли предыдущую страницу. """
+        self.has_next_page: bool = has_next_page
+        """ Имеет ли следующую страницу. """
 
-class GameCategoryObtainingTypeList(BaseModel):
+class GameCategoryObtainingTypeList:
     """
     Класс, описывающий страницу типов (способов) получения предмета в категории.
 
@@ -742,14 +774,16 @@ class GameCategoryObtainingTypeList(BaseModel):
     :param total_count: Всего способов.
     :type total_count: `int`
     """
-    obtaining_types: list[GameCategoryObtainingType]
-    """ Соглашения страницы. """
-    page_info: GameCategoryAgreementPageInfo
-    """ Информация о странице. """
-    total_count: int
-    """ Всего способов. """
+    def __init__(self, obtaining_types: list[GameCategoryObtainingType], page_info: GameCategoryObtainingTypePageInfo,
+                 total_count: int):
+        self.obtaining_types: list[GameCategoryObtainingType] = obtaining_types
+        """ Соглашения страницы. """
+        self.page_info: GameCategoryAgreementPageInfo = page_info
+        """ Информация о странице. """
+        self.total_count: int = total_count
+        """ Всего способов. """
 
-class GameCategoryDataField(BaseModel):
+class GameCategoryDataField:
     """
     Подкласс, описывающий поля с данными предмета в категории (которые отправляются после покупки).
 
@@ -777,24 +811,27 @@ class GameCategoryDataField(BaseModel):
     :param value: Значение данных в поле.
     :type value: `str` or `None`
     """
-    id: str
-    """ ID поля с данными. """
-    label: str
-    """ Надпись-название поля. """
-    type: GameCategoryDataFieldTypes
-    """ Тип поля с данными. """
-    input_type: GameCategoryDataFieldInputTypes
-    """ Тип вводимого значения поля. """
-    copyable: bool
-    """ Разрешено ли копирование значения с поля. """
-    hidden: bool
-    """ Скрыты ли данные в поле. """
-    required: bool
-    """ Обязательно ли это поле. """
-    value: str | None
-    """ Значение данных в поле. """
+    def __init__(self, id: str, label: str, type: GameCategoryDataFieldTypes,
+                 input_type: GameCategoryDataFieldInputTypes, copyable: bool, 
+                 hidden: bool, required: bool, value: str | None):
+        self.id: str = id
+        """ ID поля с данными. """
+        self.label: str = label
+        """ Надпись-название поля. """
+        self.type: GameCategoryDataFieldTypes = type
+        """ Тип поля с данными. """
+        self.input_type: GameCategoryDataFieldInputTypes = input_type
+        """ Тип вводимого значения поля. """
+        self.copyable: bool = copyable
+        """ Разрешено ли копирование значения с поля. """
+        self.hidden: bool = hidden
+        """ Скрыты ли данные в поле. """
+        self.required: bool = required
+        """ Обязательно ли это поле. """
+        self.value: str | None = value
+        """ Значение данных в поле. """
 
-class GameCategoryDataFieldPageInfo(BaseModel):
+class GameCategoryDataFieldPageInfo:
     """
     Подкласс, описывающий информацию о странице полей с данными предмета.
 
@@ -810,16 +847,18 @@ class GameCategoryDataFieldPageInfo(BaseModel):
     :param has_next_page: Имеет ли следующую страницу.
     :type has_next_page: `bool`
     """
-    start_cursor: str
-    """ Курсор начала страницы. """
-    end_cursor: str
-    """ Курсор конца страницы. """
-    has_previous_page: bool
-    """ Имеет ли предыдущую страницу. """
-    has_next_page: bool
-    """ Имеет ли следующую страницу. """
+    def __init__(self, start_cursor: str, end_cursor: str,
+                 has_previous_page: bool, has_next_page: bool):
+        self.start_cursor: str = start_cursor
+        """ Курсор начала страницы. """
+        self.end_cursor: str = end_cursor
+        """ Курсор конца страницы. """
+        self.has_previous_page: bool = has_previous_page
+        """ Имеет ли предыдущую страницу. """
+        self.has_next_page: bool = has_next_page
+        """ Имеет ли следующую страницу. """
 
-class GameCategoryDataFieldList(BaseModel):
+class GameCategoryDataFieldList:
     """
     Класс, описывающий страницу полей с данными предмета.
 
@@ -832,14 +871,16 @@ class GameCategoryDataFieldList(BaseModel):
     :param total_count: Всего полей с данными.
     :type total_count: `int`
     """
-    data_fields: list[GameCategoryDataField]
-    """ Поля с данными предмета в категории на странице. """
-    page_info: GameCategoryDataFieldPageInfo
-    """ Информация о странице. """
-    total_count: int
-    """ Всего полей с данными. """
+    def __init__(self, data_fields: list[GameCategoryDataField], 
+                 page_info: GameCategoryDataFieldPageInfo, total_count: int):
+        self.data_fields: list[GameCategoryDataField] = data_fields
+        """ Поля с данными предмета в категории на странице. """
+        self.page_info: GameCategoryDataFieldPageInfo = page_info
+        """ Информация о странице. """
+        self.total_count: int = total_count
+        """ Всего полей с данными. """
 
-class GameCategoryProps(BaseModel):
+class GameCategoryProps:
     """
     Подкласс, описывающий пропорции категории.
 
@@ -849,12 +890,13 @@ class GameCategoryProps(BaseModel):
     :param min_reviews_for_seller: Минимальное количество отзывов для продавца.
     :type min_reviews_for_seller: `int`
     """
-    min_reviews: int
-    """ Минимальное количество отзывов. """
-    min_reviews_for_seller: int
-    """ Минимальное количество отзывов для продавца. """
+    def __init__(self, min_reviews: int, min_reviews_for_seller: int):
+        self.min_reviews: int = min_reviews
+        """ Минимальное количество отзывов. """
+        self.min_reviews_for_seller: int = min_reviews_for_seller
+        """ Минимальное количество отзывов для продавца. """
 
-class GameCategoryOption(BaseModel):
+class GameCategoryOption:
     """
     Подкласс, описывающий опцию категории.
 
@@ -879,22 +921,24 @@ class GameCategoryOption(BaseModel):
     :param value_range_limit: Лимит разброса по значению.
     :type value_range_limit: `int` or `None`
     """
-    id: str
-    """ ID опции. """
-    group: str
-    """ Группа опции. """
-    label: str
-    """ Надпись-название опции. """
-    type: GameCategoryOptionTypes
-    """ Тип опции. """
-    field: str
-    """ Название поля (для payload запроса на сайт). """
-    value: str
-    """ Значение поля (для payload запроса на сайт). """
-    value_range_limit: int | None
-    """ Лимит разброса по значению. """
+    def __init__(self, id: str, group: str, label: str, type: GameCategoryOptionTypes,
+                 field: str, value: str, value_range_limit: int | None):
+        self.id: str = id
+        """ ID опции. """
+        self.group: str = group
+        """ Группа опции. """
+        self.label: str = label
+        """ Надпись-название опции. """
+        self.type: GameCategoryOptionTypes = type
+        """ Тип опции. """
+        self.field: str = field
+        """ Название поля (для payload запроса на сайт). """
+        self.value: str = value
+        """ Значение поля (для payload запроса на сайт). """
+        self.value_range_limit: int | None = value_range_limit
+        """ Лимит разброса по значению. """
 
-class GameCategoryInstruction(BaseModel):
+class GameCategoryInstruction:
     """
     Подкласс, описывающий информацию о странице инструкии по продаже/покупке в категории.
 
@@ -904,12 +948,13 @@ class GameCategoryInstruction(BaseModel):
     :param text: Текст инструкции.
     :type text: `str`
     """
-    id: str
-    """ ID инструкции. """
-    text: str
-    """ Текст инструкции. """
+    def __init__(self, id: str, text: str):
+        self.id: str = id
+        """ ID инструкции. """
+        self.text: str = text
+        """ Текст инструкции. """
 
-class GameCategoryInstructionPageInfo(BaseModel):
+class GameCategoryInstructionPageInfo:
     """
     Подкласс, описывающий инструкцию по продаже/покупке в категории.
 
@@ -925,16 +970,18 @@ class GameCategoryInstructionPageInfo(BaseModel):
     :param has_next_page: Имеет ли следующую страницу.
     :type has_next_page: `bool`
     """
-    start_cursor: str
-    """ Курсор начала страницы. """
-    end_cursor: str
-    """ Курсор конца страницы. """
-    has_previous_page: bool
-    """ Имеет ли предыдущую страницу. """
-    has_next_page: bool
-    """ Имеет ли следующую страницу. """
+    def __init__(self, start_cursor: str, end_cursor: str,
+                 has_previous_page: bool, has_next_page: bool):
+        self.start_cursor: str = start_cursor
+        """ Курсор начала страницы. """
+        self.end_cursor: str = end_cursor
+        """ Курсор конца страницы. """
+        self.has_previous_page: bool = has_previous_page
+        """ Имеет ли предыдущую страницу. """
+        self.has_next_page: bool = has_next_page
+        """ Имеет ли следующую страницу. """
 
-class GameCategoryInstructionList(BaseModel):
+class GameCategoryInstructionList:
     """
     Класс, описывающий страницу инструкций по продаже/покупке в категории.
 
@@ -947,14 +994,16 @@ class GameCategoryInstructionList(BaseModel):
     :param total_count: Всего инструкций.
     :type total_count: `int`
     """
-    instructions: list[GameCategoryInstruction]
-    """ Соглашения страницы. """
-    page_info: GameCategoryInstructionPageInfo
-    """ Информация о странице. """
-    total_count: int
-    """ Всего инструкций. """
+    def __init__(self, instructions: list[GameCategoryInstruction], page_info: GameCategoryInstructionPageInfo,
+                 total_count: int):
+        self.instructions: list[GameCategoryInstruction] = instructions
+        """ Соглашения страницы. """
+        self.page_info: GameCategoryInstructionPageInfo = page_info
+        """ Информация о странице. """
+        self.total_count: int = total_count
+        """ Всего инструкций. """
 
-class GameCategory(BaseModel):
+class GameCategory:
     """
     Объект категории игры/приложения.
 
@@ -1006,40 +1055,45 @@ class GameCategory(BaseModel):
     :param fee_multiplier: Множитель комиссии.
     :type fee_multiplier: `float` or `None`
     """
-    id: str
-    """ ID категории. """
-    slug: str
-    """ Имя страницы категории. """
-    name: str
-    """ Название категории. """
-    category_id: str | None
-    """ ID другой категории (?). """
-    game_id: str | None
-    """ ID игры категории. """
-    obtaining: str | None
-    """ Тип получения. """
-    options: list[GameCategoryOption] | None
-    """ Опции категории. """
-    props: str | None
-    """ Пропорции категории. """
-    no_comment_from_buyer: bool | None
-    """ Без комментария от покупателя? """
-    instruction_for_buyer: str | None
-    """ Инструкция для покупателя. """
-    instruction_for_seller: str | None
-    """ Инструкция для продавца. """
-    use_custom_obtaining: bool
-    """ Используется ли кастомное получение. """
-    auto_confirm_period: GameCategoryAutoConfirmPeriods | None
-    """ Период авто-подтверждения сделки этой категории. """
-    auto_moderation_mode: bool | None
-    """ Включена ли автоматическая модерация. """
-    agreements: list[GameCategoryAgreement] | None
-    """ Соглашения покупателя. """
-    fee_multiplier: float | None
-    """ Множитель комиссии. """
+    def __init__(self, id: str, slug: str, name: str, category_id: str | None, game_id: str | None,
+                 obtaining: str | None, options: list[GameCategoryOption] | None, props: GameCategoryProps | None, 
+                 no_comment_from_buyer: bool | None, instruction_for_buyer: str | None, instruction_for_seller: str | None, 
+                 use_custom_obtaining: bool, auto_confirm_period: GameCategoryAutoConfirmPeriods | None, 
+                 auto_moderation_mode: bool | None, agreements: list[GameCategoryAgreement] | None, fee_multiplier: float | None):
+        self.id: str = id
+        """ ID категории. """
+        self.slug: str = slug
+        """ Имя страницы категории. """
+        self.name: str = name
+        """ Название категории. """
+        self.category_id: str | None = category_id
+        """ ID другой категории (?). """
+        self.game_id: str | None = game_id
+        """ ID игры категории. """
+        self.obtaining: str | None = obtaining
+        """ Тип получения. """
+        self.options: list[GameCategoryOption] | None = options
+        """ Опции категории. """
+        self.props: str | None = props
+        """ Пропорции категории. """
+        self.no_comment_from_buyer: bool | None = no_comment_from_buyer
+        """ Без комментария от покупателя? """
+        self.instruction_for_buyer: str | None = instruction_for_buyer
+        """ Инструкция для покупателя. """
+        self.instruction_for_seller: str | None = instruction_for_seller
+        """ Инструкция для продавца. """
+        self.use_custom_obtaining: bool = use_custom_obtaining
+        """ Используется ли кастомное получение. """
+        self.auto_confirm_period: GameCategoryAutoConfirmPeriods | None = auto_confirm_period
+        """ Период авто-подтверждения сделки этой категории. """
+        self.auto_moderation_mode: bool | None = auto_moderation_mode
+        """ Включена ли автоматическая модерация. """
+        self.agreements: list[GameCategoryAgreement] | None = agreements
+        """ Соглашения покупателя. """
+        self.fee_multiplier: float | None = fee_multiplier
+        """ Множитель комиссии. """
 
-class Game(BaseModel):
+class Game:
     """
     Объект игры/приложения.
 
@@ -1067,24 +1121,27 @@ class Game(BaseModel):
     :param created_at: Дата создания.
     :type created_at: `str`
     """
-    id: str
-    """ ID игры/приложения. """
-    slug: str
-    """ Имя страницы игры/приложения. """
-    name: str
-    """ Название игры/приложения. """
-    type: GameTypes
-    """ Тип: игра или приложение. """
-    logo: FileObject
-    """ Лого игры/приложения. """
-    banner: FileObject
-    """ Баннер игры/приложения. """
-    categories: list[GameCategory]
-    """ Список категорий игры/приложения. """
-    created_at: str
-    """ Дата создания. """
+    def __init__(self, id: str, slug: str, name: str, type: GameTypes, 
+                 logo: FileObject, banner: FileObject, categories: list[GameCategory], 
+                 created_at: str):
+        self.id: str = id
+        """ ID игры/приложения. """
+        self.slug: str = slug
+        """ Имя страницы игры/приложения. """
+        self.name: str = name
+        """ Название игры/приложения. """
+        self.type: GameTypes = type
+        """ Тип: игра или приложение. """
+        self.logo: FileObject = logo
+        """ Лого игры/приложения. """
+        self.banner: FileObject = banner
+        """ Баннер игры/приложения. """
+        self.categories: list[GameCategory] = categories
+        """ Список категорий игры/приложения. """
+        self.created_at: str = created_at
+        """ Дата создания. """
 
-class GameProfile(BaseModel):
+class GameProfile:
     """
     Профиль игры/приложения.
 
@@ -1103,18 +1160,20 @@ class GameProfile(BaseModel):
     :param logo: Лого игры/приложения.
     :type logo: `types.FileObject`
     """
-    id: str
-    """ ID игры/приложения. """
-    slug: str
-    """ Имя страницы игры/приложения. """
-    name: str
-    """ Название игры/приложения. """
-    type: GameTypes
-    """ Тип: игра или приложение. """
-    logo: FileObject
-    """ Лого игры/приложения. """
+    def __init__(self, id: str, slug: str, name: str, 
+                 type: GameTypes, logo: FileObject):
+        self.id: str = id
+        """ ID игры/приложения. """
+        self.slug: str = slug
+        """ Имя страницы игры/приложения. """
+        self.name: str = name
+        """ Название игры/приложения. """
+        self.type: GameTypes = id
+        """ Тип: игра или приложение. """
+        self.logo: FileObject = logo
+        """ Лого игры/приложения. """
 
-class GamePageInfo(BaseModel):
+class GamePageInfo:
     """
     Подкласс, описывающий информацию о странице игр.
 
@@ -1130,16 +1189,18 @@ class GamePageInfo(BaseModel):
     :param has_next_page: Имеет ли следующую страницу.
     :type has_next_page: `bool`
     """
-    start_cursor: str
-    """ Курсор начала страницы. """
-    end_cursor: str
-    """ Курсор конца страницы. """
-    has_previous_page: bool
-    """ Имеет ли предыдущую страницу. """
-    has_next_page: bool
-    """ Имеет ли следующую страницу. """
+    def __init__(self, start_cursor: str, end_cursor: str,
+                 has_previous_page: bool, has_next_page: bool):
+        self.start_cursor: str = start_cursor
+        """ Курсор начала страницы. """
+        self.end_cursor: str = end_cursor
+        """ Курсор конца страницы. """
+        self.has_previous_page: bool = has_previous_page
+        """ Имеет ли предыдущую страницу. """
+        self.has_next_page: bool = has_next_page
+        """ Имеет ли следующую страницу. """
 
-class GameList(BaseModel):
+class GameList:
     """
     Класс, описывающий страницу игр.
 
@@ -1152,14 +1213,16 @@ class GameList(BaseModel):
     :param total_count: Всего игр.
     :type total_count: `int`
     """
-    games: list[Game]
-    """ Игры/приложения страницы. """
-    page_info: ChatPageInfo
-    """ Информация о странице. """
-    total_count: int
-    """ Всего игр. """
+    def __init__(self, games: list[Game], page_info: GamePageInfo,
+                 total_count: int):
+        self.games: list[Game] = games
+        """ Игры/приложения страницы. """
+        self.page_info: ChatPageInfo = page_info
+        """ Информация о странице. """
+        self.total_count: int = total_count
+        """ Всего игр. """
 
-class ItemPriorityStatusPriceRange(BaseModel):
+class ItemPriorityStatusPriceRange:
     """
     Подкласс, описывающий ценовой диапазон предмета, подходящего для опред. статуса приоритета.
 
@@ -1169,12 +1232,13 @@ class ItemPriorityStatusPriceRange(BaseModel):
     :param max: Максимальная цена предмета.
     :type max: `int`
     """
-    min: int
-    """ Минимальная цена предмета (в рублях). """
-    max: int
-    """ Максимальная цена предмета (в рублях). """
+    def __init__(self, min: int, max: str):
+        self.min: int = min
+        """ Минимальная цена предмета (в рублях). """
+        self.max: int = max
+        """ Максимальная цена предмета (в рублях). """
 
-class ItemPriorityStatus(BaseModel):
+class ItemPriorityStatus:
     """
     Класс, описывающий статус приоритета предмета.
 
@@ -1196,20 +1260,22 @@ class ItemPriorityStatus(BaseModel):
     :param price_range: Ценовой диапазон предмета статуса.
     :type price_range: `types.ItemPriorityStatusPriceRange`
     """
-    id: str
-    """ ID статуса приоритета. """
-    price: int
-    """ Цена статуса (в рублях). """
-    name: str
-    """ Название статуса. """
-    type: PriorityTypes
-    """ Тип статуса. """
-    period: int
-    """ Длительность статуса (в днях). """
-    price_range: ItemPriorityStatusPriceRange
-    """ Ценовой диапазон предмета статуса. """
+    def __init__(self, id: str, price: int, name: str, type: PriorityTypes,
+                 period: int, price_range: ItemPriorityStatusPriceRange):
+        self.id: str = id
+        """ ID статуса приоритета. """
+        self.price: int = price
+        """ Цена статуса (в рублях). """
+        self.name: str = name
+        """ Название статуса. """
+        self.type: PriorityTypes = type
+        """ Тип статуса. """
+        self.period: int = period
+        """ Длительность статуса (в днях). """
+        self.price_range: ItemPriorityStatusPriceRange = price_range
+        """ Ценовой диапазон предмета статуса. """
 
-class ItemLog(BaseModel):
+class ItemLog:
     """
     Подкласс, описывающий лог действия с предметом.
     
@@ -1225,16 +1291,18 @@ class ItemLog(BaseModel):
     :param user: Профиль пользователя, совершившего лог.
     :type user: `types.UserProfile`
     """
-    id: str
-    """ ID лога. """
-    event: ItemLogEvents
-    """ Событие лога. """
-    created_at: str
-    """ Дата создания лога. """
-    user: UserProfile
-    """ Профиль пользователя, совершившего лог. """
+    def __init__(self, id: str, event: ItemLogEvents, created_at: str,
+                 user: UserProfile):
+        self.id: str = id
+        """ ID лога. """
+        self.event: ItemLogEvents = event
+        """ Событие лога. """
+        self.created_at: str = created_at
+        """ Дата создания лога. """
+        self.user: UserProfile = user
+        """ Профиль пользователя, совершившего лог. """
 
-class Item(BaseModel):
+class Item:
     """
     Объект предмета.
 
@@ -1295,48 +1363,52 @@ class Item(BaseModel):
     :param user: Профиль продавца.
     :type user: `types.UserProfile`
     """
-    id: str
-    """ ID предмета. """
-    slug: str
-    """ Имя страницы предмета. """
-    name: str
-    """ Название предмета. """
-    description: str
-    """ Описание предмета. """
-    obtaining_type: GameCategoryObtainingType | None
-    """ Способ получения. """
-    price: int
-    """ Цена предмета. """
-    raw_price: int
-    """ Цена без учёта скидки. """
-    priority_position: int
-    """ Приоритетная позиция. """
-    attachments: list[FileObject]
-    """ Файлы-приложения. """
-    attributes: dict
-    """ Аттрибуты предмета. """
-    buyer: UserProfile
-    """ Профиль покупателя предмета (если продан). """
-    category: GameCategory
-    """ Категория игры предмета. """
-    comment: str | None
-    """ Комментарий предмета. """
-    data_fields: list[GameCategoryDataField] | None
-    """ Поля данных предмета. """
-    fee_multiplier: float
-    """ Множитель комиссии. """
-    game: GameProfile
-    """ Профиль игры предмета. """
-    seller_type: UserTypes
-    """ Тип продавца. """
-    slug: str
-    """ Имя страницы предмета. """
-    status: ItemStatuses
-    """ Статус предмета. """
-    user: UserProfile
-    """ Профиль продавца. """
+    def __init__(self, id: str, slug: str, name: str, description: str, obtaining_type: GameCategoryObtainingType | None, price: int, raw_price: int, priority_position: int,
+                 attachments: list[FileObject], attributes: dict, buyer: UserProfile, category: GameCategory, comment: str | None,
+                 data_fields: list[GameCategoryDataField] | None, fee_multiplier: float, game: GameProfile, seller_type: UserTypes, status: ItemStatuses,
+                 user: UserProfile):
+        self.id: str = id
+        """ ID предмета. """
+        self.slug: str = slug
+        """ Имя страницы предмета. """
+        self.name: str = name
+        """ Название предмета. """
+        self.description: str = description
+        """ Описание предмета. """
+        self.obtaining_type: GameCategoryObtainingType | None = obtaining_type
+        """ Способ получения. """
+        self.price: int = price
+        """ Цена предмета. """
+        self.raw_price: int = raw_price
+        """ Цена без учёта скидки. """
+        self.priority_position: int = priority_position
+        """ Приоритетная позиция. """
+        self.attachments: list[FileObject] = attachments
+        """ Файлы-приложения. """
+        self.attributes: dict = attributes
+        """ Аттрибуты предмета. """
+        self.buyer: UserProfile = buyer
+        """ Профиль покупателя предмета (если продан). """
+        self.category: GameCategory = category
+        """ Категория игры предмета. """
+        self.comment: str | None = comment
+        """ Комментарий предмета. """
+        self.data_fields: list[GameCategoryDataField] | None = data_fields
+        """ Поля данных предмета. """
+        self.fee_multiplier: float = fee_multiplier
+        """ Множитель комиссии. """
+        self.game: GameProfile = game
+        """ Профиль игры предмета. """
+        self.seller_type: UserTypes = seller_type
+        """ Тип продавца. """
+        self.slug: str = slug
+        """ Имя страницы предмета. """
+        self.status: ItemStatuses = status
+        """ Статус предмета. """
+        self.user: UserProfile = user
+        """ Профиль продавца. """
 
-class ItemProfile(BaseModel):
+class ItemProfile:
     """
     Профиль предмета.
 
@@ -1385,38 +1457,42 @@ class ItemProfile(BaseModel):
     :param created_at: Дата создания.
     :type created_at: `str`
     """
-    id: str
-    """ ID предмета. """
-    slug: str
-    """ Имя страницы предмета. """
-    priority: PriorityTypes
-    """ Приоритет предмета. """
-    status: ItemStatuses
-    """ Статус предмета. """
-    name: str
-    """ Название предмета. """
-    price: int
-    """ Цена предмета. """
-    raw_price: int
-    """ Цена без учёта скидки. """
-    seller_type: UserTypes
-    """ Тип продавца. """
-    attachment: FileObject
-    """ Файл-приложение. """
-    user: UserProfile
-    """ Профиль продавца. """
-    approval_date: str
-    """ Дата одобрения. """
-    priority_position: int
-    """ Приоритетная позиция. """
-    views_counter: int | None
-    """ Количество просмотров. """
-    fee_multiplier: float
-    """ Множитель комиссии. """
-    created_at: str
-    """ Дата создания. """
+    def __init__(self, id: str, slug: str, priority: PriorityTypes, status: ItemStatuses,
+                 name: str, price: int, raw_price: int, seller_type: UserTypes, attachment: FileObject,
+                 user: UserProfile, approval_date: str, priority_position: int, views_counter: int | None, 
+                 fee_multiplier: float, created_at: str):
+        self.id: str = id
+        """ ID предмета. """
+        self.slug: str = slug
+        """ Имя страницы предмета. """
+        self.priority: PriorityTypes = priority
+        """ Приоритет предмета. """
+        self.status: ItemStatuses = status
+        """ Статус предмета. """
+        self.name: str = name
+        """ Название предмета. """
+        self.price: int = price
+        """ Цена предмета. """
+        self.raw_price: int = raw_price
+        """ Цена без учёта скидки. """
+        self.seller_type: UserTypes = seller_type
+        """ Тип продавца. """
+        self.attachment: FileObject = attachment
+        """ Файл-приложение. """
+        self.user: UserProfile = user
+        """ Профиль продавца. """
+        self.approval_date: str = approval_date
+        """ Дата одобрения. """
+        self.priority_position: int = priority_position
+        """ Приоритетная позиция. """
+        self.views_counter: int | None = views_counter
+        """ Количество просмотров. """
+        self.fee_multiplier: float = fee_multiplier
+        """ Множитель комиссии. """
+        self.created_at: str = created_at
+        """ Дата создания. """
 
-class ItemProfilePageInfo(BaseModel):
+class ItemProfilePageInfo:
     """
     Подкласс, описывающий информацию о странице предметов.
 
@@ -1432,16 +1508,18 @@ class ItemProfilePageInfo(BaseModel):
     :param has_next_page: Имеет ли следующую страницу.
     :type has_next_page: `bool`
     """
-    start_cursor: str
-    """ Курсор начала страницы. """
-    end_cursor: str
-    """ Курсор конца страницы. """
-    has_previous_page: bool
-    """ Имеет ли предыдущую страницу. """
-    has_next_page: bool
-    """ Имеет ли следующую страницу. """
+    def __init__(self, start_cursor: str, end_cursor: str,
+                 has_previous_page: bool, has_next_page: bool):
+        self.start_cursor: str = start_cursor
+        """ Курсор начала страницы. """
+        self.end_cursor: str = end_cursor
+        """ Курсор конца страницы. """
+        self.has_previous_page: bool = has_previous_page
+        """ Имеет ли предыдущую страницу. """
+        self.has_next_page: bool = has_next_page
+        """ Имеет ли следующую страницу. """
 
-class ItemProfileList(BaseModel):
+class ItemProfileList:
     """
     Профиль страницы предметов.
 
@@ -1454,14 +1532,16 @@ class ItemProfileList(BaseModel):
     :param total_count: Всего предметов.
     :type total_count: `int`
     """
-    items: list[ItemProfile]
-    """ Предметы страницы. """
-    page_info: ItemProfilePageInfo
-    """ Информация о странице. """
-    total_count: int
-    """ Всего предметов. """
+    def __init__(self, items: list[ItemProfile], page_info: ItemProfilePageInfo,
+                 total_count: int):
+        self.items: list[ItemProfile] = items
+        """ Предметы страницы. """
+        self.page_info: ItemProfilePageInfo = page_info
+        """ Информация о странице. """
+        self.total_count: int = total_count
+        """ Всего предметов. """
 
-class Transaction(BaseModel):
+class Transaction:
     """
     Объект транзакции.
 
@@ -1492,30 +1572,35 @@ class Transaction(BaseModel):
     :param status_expiration_date: Дата истечения статуса транзакции.
     :type status_expiration_date: `str` or `None`
     """
-    id: str
-    """ ID транзакции. """
-    operation: TransactionOperations
-    """ Тип выполненной операции. """
-    direction: TransactionDirections
-    """ Направление транзакции. """
-    provider_id: TransactionProviderIds
-    """ ID платёжного провайдера. """
-    status: TransactionStatuses
-    """ Статус обработки транзакции. """
-    value: int
-    """ Сумма транзакции. """
-    created_at: str
-    """ Дата создания транзакции. """
-    payment_method_id: str | None
-    """ ID способа оплаты. """
-    status_expiration_date: str | None
-    """ Дата истечения статуса транзакции. """
+    def __init__(self, id: str, operation: TransactionOperations, direction: TransactionDirections,
+                 provider_id: TransactionProviderIds, status: TransactionStatuses, value: int, created_at: str,
+                 payment_method_id: str | None, status_expiration_date: str | None):
+        self.id: str = id
+        """ ID транзакции. """
+        self.operation: TransactionOperations = operation
+        """ Тип выполненной операции. """
+        self.direction: TransactionDirections = direction
+        """ Направление транзакции. """
+        self.provider_id: TransactionProviderIds = provider_id
+        """ ID платёжного провайдера. """
+        self.status: TransactionStatuses = status
+        """ Статус обработки транзакции. """
+        self.value: int = value
+        """ Сумма транзакции. """
+        self.created_at: str = created_at
+        """ Дата создания транзакции. """
+        self.payment_method_id: str | None = payment_method_id
+        """ ID способа оплаты. """
+        self.status_expiration_date: str | None = status_expiration_date
+        """ Дата истечения статуса транзакции. """
 
-class Moderator(BaseModel):
+class Moderator:
     # TODO: Сделать класс модератора Moderator
-    pass
 
-class ChatMessageButton(BaseModel):
+    def __init__(self):
+        pass
+
+class ChatMessageButton:
     """
     Объект кнопки сообщения.
 
@@ -1528,14 +1613,16 @@ class ChatMessageButton(BaseModel):
     :param text: Текст кнопки.
     :type text: `str`
     """
-    type: ChatMessageButtonTypes
-    """ Тип кнопки. """
-    url: str | None
-    """ URL кнопки. """
-    text: str
-    """ Текст кнопки. """
+    def __init__(self, type: ChatMessageButtonTypes, 
+                 url: str | None, text: str,):
+        self.type: ChatMessageButtonTypes = type
+        """ Тип кнопки. """
+        self.url: str | None = url
+        """ URL кнопки. """
+        self.text: str = text
+        """ Текст кнопки. """
 
-class ChatMessage(BaseModel):
+class ChatMessage:
     """
     Класс, описывающий сообщение в чате.
 
@@ -1596,46 +1683,51 @@ class ChatMessage(BaseModel):
     :param buttons: Кнопки сообщения.
     :type buttons: `list[types.MessageButton]`
     """
-    id: str
-    """ ID сообщения. """
-    text: str
-    """ Текст сообщения. """
-    created_at: str
-    """ Дата создания сообщения. """
-    deleted_at: str | None
-    """ Дата удаления сообщения. """
-    is_read: bool
-    """ Прочитано ли сообщение. """
-    is_suspicious: bool
-    """ Подозрительное ли сообщение. """
-    is_bulk_messaging: bool
-    """ Массовая ли это рассылка. """
-    game: Game | None 
-    """ Игра, к которой относится сообщение. """
-    file: FileObject | None 
-    """ Файл, прикреплённый к сообщению. """
-    user: UserProfile
-    """ Пользователь, который отправил сообщение. """
-    deal: ItemDeal | None
-    """ Сделка, к которой относится сообщение. """
-    item: ItemProfile | None
-    """ Предмет, к которому относится сообщение (обычно передаётся только сама сделка в переменную deal). """
-    transaction: Transaction | None
-    """ Транзакция сообщения. """
-    moderator: Moderator
-    """ Модератор сообщения. """
-    event_by_user: UserProfile | None
-    """ Ивент от пользователя. """
-    event_to_user: UserProfile | None
-    """ Ивент для пользователя. """
-    is_auto_response: bool
-    """ Авто-ответ ли это. """
-    event: Event | None
-    """ Ивент сообщения. """
-    buttons: list[ChatMessageButton]
-    """ Кнопки сообщения. """
+    def __init__(self, id: str, text: str, created_at: str, deleted_at: str | None, is_read: bool, 
+                 is_suspicious: bool, is_bulk_messaging: bool, game: Game | None, file: FileObject | None,
+                 user: UserProfile, deal: ItemDeal | None, item: ItemProfile | None, transaction: Transaction | None,
+                 moderator: Moderator | None, event_by_user: UserProfile | None, event_to_user: UserProfile | None, 
+                 is_auto_response: bool, event: Event | None, buttons: list[ChatMessageButton]):
+        self.id: str = id
+        """ ID сообщения. """
+        self.text: str = text
+        """ Текст сообщения. """
+        self.created_at: str = created_at
+        """ Дата создания сообщения. """
+        self.deleted_at: str | None = deleted_at
+        """ Дата удаления сообщения. """
+        self.is_read: bool = is_read
+        """ Прочитано ли сообщение. """
+        self.is_suspicious: bool = is_suspicious
+        """ Подозрительное ли сообщение. """
+        self.is_bulk_messaging: bool = is_bulk_messaging
+        """ Массовая ли это рассылка. """
+        self.game: Game | None  = game
+        """ Игра, к которой относится сообщение. """
+        self.file: FileObject | None  = file
+        """ Файл, прикреплённый к сообщению. """
+        self.user: UserProfile = user
+        """ Пользователь, который отправил сообщение. """
+        self.deal: ItemDeal | None = deal
+        """ Сделка, к которой относится сообщение. """
+        self.item: ItemProfile | None = item
+        """ Предмет, к которому относится сообщение (обычно передаётся только сама сделка в переменную deal). """
+        self.transaction: Transaction | None = transaction
+        """ Транзакция сообщения. """
+        self.moderator: Moderator = moderator
+        """ Модератор сообщения. """
+        self.event_by_user: UserProfile | None = event_by_user
+        """ Ивент от пользователя. """
+        self.event_to_user: UserProfile | None = event_to_user
+        """ Ивент для пользователя. """
+        self.is_auto_response: bool = is_auto_response
+        """ Авто-ответ ли это. """
+        self.event: Event | None = event
+        """ Ивент сообщения. """
+        self.buttons: list[ChatMessageButton] = buttons
+        """ Кнопки сообщения. """
 
-class ChatMessagePageInfo(BaseModel):
+class ChatMessagePageInfo:
     """
     Подкласс, описывающий информацию о странице сообщений.
 
@@ -1651,16 +1743,18 @@ class ChatMessagePageInfo(BaseModel):
     :param has_next_page: Имеет ли следующую страницу.
     :type has_next_page: `bool`
     """
-    start_cursor: str
-    """ Курсор начала страницы. """
-    end_cursor: str
-    """ Курсор конца страницы. """
-    has_previous_page: bool
-    """ Имеет ли предыдущую страницу. """
-    has_next_page: bool
-    """ Имеет ли следующую страницу. """
+    def __init__(self, start_cursor: str, end_cursor: str,
+                 has_previous_page: bool, has_next_page: bool):
+        self.start_cursor: str = start_cursor
+        """ Курсор начала страницы. """
+        self.end_cursor: str = end_cursor
+        """ Курсор конца страницы. """
+        self.has_previous_page: bool = has_previous_page
+        """ Имеет ли предыдущую страницу. """
+        self.has_next_page: bool = has_next_page
+        """ Имеет ли следующую страницу. """
 
-class ChatMessageList(BaseModel):
+class ChatMessageList:
     """
     Класс, описывающий страницу сообщений чата.
 
@@ -1673,14 +1767,16 @@ class ChatMessageList(BaseModel):
     :param total_count: Всего сообщений в чате.
     :type total_count: `int`
     """
-    messages: list[ChatMessage]
-    """ Сообщения страницы. """
-    page_info: ChatMessagePageInfo
-    """ Информация о странице. """
-    total_count: int
-    """ Всего сообщений в чате. """
+    def __init__(self, messages: list[ChatMessage], page_info: ChatMessagePageInfo,
+                 total_count: int):
+        self.messages: list[ChatMessage] = messages
+        """ Сообщения страницы. """
+        self.page_info: ChatMessagePageInfo = page_info
+        """ Информация о странице. """
+        self.total_count: int = total_count
+        """ Всего сообщений в чате. """
 
-class Chat(BaseModel):
+class Chat:
     """
     Объект чата.
 
@@ -1720,32 +1816,35 @@ class Chat(BaseModel):
     :param finished_at: Дата завершения диалога.
     :type finished_at: `str` or `None`
     """
-    id: str
-    """ ID чата. """
-    type: ChatTypes
-    """ Тип чата. """
-    status: ChatStatuses | None
-    """ Статус чата. """
-    unread_messages_counter: int
-    """ Количество непрочитанных сообщений. """
-    bookmarked: bool | None
-    """ В закладках ли чат. """
-    is_texting_allowed: bool | None
-    """ Разрешено ли писать в чат. """
-    owner: UserProfile
-    """ Владелец чата. """
-    deals: list[ItemDeal] | None
-    """ Сделки в чате. """
-    last_message: ChatMessage | None
-    """ Объект последнего сообщения в чате. """
-    users: list[UserProfile]
-    """ Участники чата. """
-    started_at: str | None
-    """ Дата начала диалога. """
-    finished_at: str | None
-    """ Дата завершения диалога. """
+    def __init__(self, id: str, type: ChatTypes, status: ChatStatuses | None, unread_messages_counter: int, 
+                 bookmarked: bool | None, is_texting_allowed: bool | None, owner: UserProfile | None, deals: list[ItemDeal] | None,
+                 started_at: str | None, finished_at: str | None, last_message: ChatMessage | None, users: list[UserProfile]):
+        self.id: str = id
+        """ ID чата. """
+        self.type: ChatTypes = type
+        """ Тип чата. """
+        self.status: ChatStatuses | None = status
+        """ Статус чата. """
+        self.unread_messages_counter: int = unread_messages_counter
+        """ Количество непрочитанных сообщений. """
+        self.bookmarked: bool | None = bookmarked
+        """ В закладках ли чат. """
+        self.is_texting_allowed: bool | None = is_texting_allowed
+        """ Разрешено ли писать в чат. """
+        self.owner: UserProfile = owner
+        """ Владелец чата. """
+        self.deals: list[ItemDeal] | None = deals
+        """ Сделки в чате. """
+        self.last_message: ChatMessage | None = last_message
+        """ Объект последнего сообщения в чате. """
+        self.users: list[UserProfile] = users
+        """ Участники чата. """
+        self.started_at: str | None = started_at
+        """ Дата начала диалога. """
+        self.finished_at: str | None = finished_at
+        """ Дата завершения диалога. """
 
-class ChatPageInfo(BaseModel):
+class ChatPageInfo:
     """
     Подкласс, описывающий информацию о странице чатов.
 
@@ -1761,16 +1860,18 @@ class ChatPageInfo(BaseModel):
     :param has_next_page: Имеет ли следующую страницу.
     :type has_next_page: `bool`
     """
-    start_cursor: str
-    """ Курсор начала страницы. """
-    end_cursor: str
-    """ Курсор конца страницы. """
-    has_previous_page: bool
-    """ Имеет ли предыдущую страницу. """
-    has_next_page: bool
-    """ Имеет ли следующую страницу. """
+    def __init__(self, start_cursor: str, end_cursor: str,
+                 has_previous_page: bool, has_next_page: bool):
+        self.start_cursor: str = start_cursor
+        """ Курсор начала страницы. """
+        self.end_cursor: str = end_cursor
+        """ Курсор конца страницы. """
+        self.has_previous_page: bool = has_previous_page
+        """ Имеет ли предыдущую страницу. """
+        self.has_next_page: bool = has_next_page
+        """ Имеет ли следующую страницу. """
 
-class ChatList(BaseModel):
+class ChatList:
     """
     Класс, описывающий страницу чатов.
 
@@ -1783,14 +1884,16 @@ class ChatList(BaseModel):
     :param total_count: Всего чатов.
     :type total_count: `int`
     """
-    chats: list[Chat]
-    """ Чаты страницы. """
-    page_info: ChatPageInfo
-    """ Информация о странице. """
-    total_count: int
-    """ Всего чатов. """
+    def __init__(self, chats: list[Chat], page_info: ChatPageInfo,
+                 total_count: int):
+        self.chats: list[Chat] = chats
+        """ Чаты страницы. """
+        self.page_info: ChatPageInfo = page_info
+        """ Информация о странице. """
+        self.total_count: int = total_count
+        """ Всего чатов. """
 
-class Review(BaseModel):
+class Review:
     """
     Объект отзыва.
 
@@ -1824,28 +1927,31 @@ class Review(BaseModel):
     :param user: Профиль продавца, к которому относится отзыв.
     :type user: `UserProfile`
     """
-    id: str
-    """ ID отзыва. """
-    status: ReviewStatuses
-    """ Статус отзыва. """
-    text: str | None
-    """ Текст отзыва. """
-    rating: int
-    """ Рейтинг отзыва. """
-    created_at: str
-    """ Дата создания отзыва. """
-    updated_at: str
-    """ Дата изменения отзыва. """
-    deal: ItemDeal
-    """ Сделка, связанная с отзывом. """
-    creator: UserProfile
-    """ Профиль создателя отзыва. """
-    moderator: Moderator | None
-    """ Модератор, обработавший отзыв. """
-    user: UserProfile
-    """ Профиль продавца, к которому относится отзыв. """
+    def __init__(self, id: str, status: ReviewStatuses, text: str | None, rating: int,
+                 created_at: str, updated_at: str, deal: ItemDeal, creator: UserProfile, 
+                 moderator: Moderator | None, user: UserProfile):
+        self.id: str = id
+        """ ID отзыва. """
+        self.status: ReviewStatuses = status
+        """ Статус отзыва. """
+        self.text: str | None = text
+        """ Текст отзыва. """
+        self.rating: int = rating
+        """ Рейтинг отзыва. """
+        self.created_at: str = created_at
+        """ Дата создания отзыва. """
+        self.updated_at: str = updated_at
+        """ Дата изменения отзыва. """
+        self.deal: ItemDeal = deal
+        """ Сделка, связанная с отзывом. """
+        self.creator: UserProfile = creator
+        """ Профиль создателя отзыва. """
+        self.moderator: Moderator | None = moderator
+        """ Модератор, обработавший отзыв. """
+        self.user: UserProfile = user
+        """ Профиль продавца, к которому относится отзыв. """
 
-class ReviewPageInfo(BaseModel):
+class ReviewPageInfo:
     """
     Подкласс, описывающий информацию о странице отзывов.
 
@@ -1861,16 +1967,18 @@ class ReviewPageInfo(BaseModel):
     :param has_next_page: Имеет ли следующую страницу.
     :type has_next_page: `bool`
     """
-    start_cursor: str
-    """ Курсор начала страницы. """
-    end_cursor: str
-    """ Курсор конца страницы. """
-    has_previous_page: bool
-    """ Имеет ли предыдущую страницу. """
-    has_next_page: bool
-    """ Имеет ли следующую страницу. """
+    def __init__(self, start_cursor: str, end_cursor: str,
+                 has_previous_page: bool, has_next_page: bool):
+        self.start_cursor: str = start_cursor
+        """ Курсор начала страницы. """
+        self.end_cursor: str = end_cursor
+        """ Курсор конца страницы. """
+        self.has_previous_page: bool = has_previous_page
+        """ Имеет ли предыдущую страницу. """
+        self.has_next_page: bool = has_next_page
+        """ Имеет ли следующую страницу. """
 
-class ReviewList(BaseModel):
+class ReviewList:
     """
     Класс, описывающий страницу отзывов.
 
@@ -1883,9 +1991,11 @@ class ReviewList(BaseModel):
     :param total_count: Всего отзывов.
     :type total_count: `int`
     """
-    reviews: list[Review]
-    """ Отзывы страницы. """
-    page_info: ReviewPageInfo
-    """ Информация о странице. """
-    total_count: int
-
+    def __init__(self, reviews: list[Review], page_info: ReviewPageInfo,
+                 total_count: int):
+        self.reviews: list[Review] = reviews
+        """ Отзывы страницы. """
+        self.page_info: ReviewPageInfo = page_info
+        """ Информация о странице. """
+        self.total_count: int = total_count
+        """ Всего отзывов. """
