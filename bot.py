@@ -14,6 +14,9 @@ init()
 
 from plbot.playerokbot import PlayerokBot
 from services.updater import Updater
+from loguru import logger
+
+logger.add('logs/app.log')
 
 from tgbot import set_telegram_bot, set_loop
 
