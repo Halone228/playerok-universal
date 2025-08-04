@@ -76,6 +76,9 @@ class EventListener:
         _or_ `PlayerokAPI.listener.events.DealStatusChangedEvent(message.deal)`
         """
         
+        logger.info(
+            f'Чат: {chat.id}, {chat.last_message}, Сообщение: {message.id}, {message.text}, {message.deal}, {message.transaction}'
+        )
         if not message:
             return []
         if message.text == "{{ITEM_PAID}}" and message.deal is not None:
