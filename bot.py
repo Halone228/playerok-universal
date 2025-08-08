@@ -49,8 +49,8 @@ if __name__ == "__main__":
               f"\n   {Fore.WHITE}→ tg: {Fore.LIGHTWHITE_EX}@alleexxeeyy"
               f"\n   {Fore.WHITE}→ tg channel: {Fore.LIGHTWHITE_EX}@alexeyproduction\n")
         
-        if Updater.check_for_updates():
-            exit()
+        # if Updater.check_for_updates():
+        #     exit()
 
         config = Config.get()
         if not config["token"]:
