@@ -7,6 +7,7 @@ configure(token="pylf_v1_eu_hyhCtywjw5z2CJfsWnkGd6x1PD1q5gHFCWGMZKQwrrqw")
 basicConfig(handlers=[logfire.LogfireLoggingHandler()])
 logger.configure(handlers=[logfire.loguru_handler()])
 
+logger.add("logs/app.log")
 
 from core.modules_manager import ModulesManager
 from core.handlers_manager import HandlersManager
@@ -27,7 +28,6 @@ init()
 from plbot.playerokbot import PlayerokBot
 from services.updater import Updater
 
-logger.add("logs/app.log")
 
 from tgbot import set_telegram_bot, set_loop
 
@@ -120,4 +120,3 @@ if __name__ == "__main__":
         asyncio.run(start_telegram_bot())
     except Exception as e:
         traceback.print_exc()
-
